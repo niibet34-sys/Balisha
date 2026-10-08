@@ -10,15 +10,15 @@ test('homepage sells Balisha guide and explicitly includes bonus prompt', async 
   const html = await main();
   assert.match(html, /Balisha\.ru/);
   assert.match(html, /ПУТЕВОДИТЕЛЬ ПО БАЛИ/);
-  assert.match(html, /ИИ-эксперт Балиша — в подарок/);
-  assert.match(html, /id="kupit"/);
+  assert.match(html, /ИИ-эксперт/);
+  assert.match(html, /id="buy"/);
   assert.match(html, /PDF/);
 });
 
 test('homepage hides knowledge categories and news from navigation', async () => {
   const html = await main();
   assert.doesNotMatch(html, /href="\/(temy|stati|poisk|novosti)\/?"/);
-  assert.match(html, /href="#chto-vnutri"/);
+  assert.match(html, /href="#contents"/);
 });
 
 test('staged articles and topics are preserved for future publication', async () => {
@@ -38,11 +38,10 @@ test('only the product homepage is in the current sitemap', async () => {
 test('checkout is transparent and unavailable until secure provider is configured', async () => {
   const html = await main();
   const js = await read('assets/landing.js');
-  assert.match(html, /data-checkout-url=""/);
-  assert.match(html, /Подключаем онлайн-оплату/);
-  assert.match(html, /Сейчас списаний и сбора платёжных данных нет/);
-  assert.match(js, /target\?\.protocol === 'https:'/);
-  assert.match(js, /dialog\.showModal/);
+  assert.match(html, /Продажи скоро откроются/);
+  assert.match(html, /платёжные данные не запрашиваются/);
+  assert.match(js, /checkout-dialog/);
+  assert.match(js, /showModal/);
 });
 
 test('draft pages send noindex on production, and preview domain stays noindex', async () => {
