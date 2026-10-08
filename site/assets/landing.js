@@ -38,7 +38,7 @@ lightbox.addEventListener('click',e=>{if(e.target===lightbox)lightbox.close()});
 lightbox.addEventListener('keydown',e=>{if(e.key==='ArrowLeft'){e.preventDefault();showPage(selected-1)}if(e.key==='ArrowRight'){e.preventDefault();showPage(selected+1)}});
 const modal=document.getElementById('checkout-dialog');document.querySelectorAll('.checkout-trigger').forEach(btn=>btn.addEventListener('click',async()=>{try{const response=await fetch('/config/commerce.json',{cache:'no-cache'});if(response.ok){const cfg=await response.json();if(cfg.mode==='live' && cfg.checkoutUrl && new URL(cfg.checkoutUrl).protocol==='https:'){window.location.assign(cfg.checkoutUrl);return;}}}catch(_error){/* Safely fall back to preview, never process payment. */}modal.showModal();}));document.querySelector('[data-checkout-close]').addEventListener('click',()=>modal.close());modal.addEventListener('click',e=>{if(e.target===modal)modal.close()});
 // Analytics events are emitted only on actual user actions. A checkout intent never means a sale.
-function track(name,extra={}){window.dispatchEvent(new CustomEvent('balisha:analytics',{detail:{name,...extra}}));if(typeof window.balishaTrack==='function')window.balishaTrack(name,extra);}
-document.querySelectorAll('[data-track]').forEach(el=>el.addEventListener('click',()=>track(el.dataset.track)));
-cards.forEach(c=>c.addEventListener('click',()=>track('gallery_open',{page:c.dataset.page})));
+function emitAnalytics(name,extra={}){window.dispatchEvent(new CustomEvent('balisha:analytics',{detail:{name,...extra}}));if(typeof window.balishaTrack==='function')window.balishaTrack(name,extra);}
+document.querySelectorAll('[data-track]').forEach(el=>el.addEventListener('click',()=>emitAnalytics(el.dataset.track)));
+cards.forEach(c=>c.addEventListener('click',()=>emitAnalytics('gallery_open',{page:c.dataset.page})));
 })();
