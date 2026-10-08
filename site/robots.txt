@@ -1,5 +1,3 @@
 User-agent: *
 Allow: /
-Disallow: /poisk/
-Disallow: /novosti/
 Sitemap: https://balisha.ru/sitemap.xml

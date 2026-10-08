@@ -1,30 +1,59 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFile, readdir } from 'node:fs/promises';
+import { onRequest } from '../functions/_middleware.js';
 const root = new URL('../site/', import.meta.url);
 const read = path => readFile(new URL(path, root), 'utf8');
-test('homepage has branding, search, and a guide link', async () => {
-  const html = await read('index.html');
+const main = () => read('index.html');
+
+test('homepage sells Balisha guide and explicitly includes bonus prompt', async () => {
+  const html = await main();
   assert.match(html, /Balisha\.ru/);
-  assert.match(html, /\/poisk\//);
-  assert.match(html, /\/putevoditel\//);
+  assert.match(html, /ПУТЕВОДИТЕЛЬ ПО БАЛИ/);
+  assert.match(html, /ИИ-эксперт Балиша — в подарок/);
+  assert.match(html, /id="kupit"/);
+  assert.match(html, /PDF/);
 });
-test('site has ten articles and six categories', async () => {
-  const articles = await readdir(new URL('stati/', root), { withFileTypes:true });
-  const topics = await readdir(new URL('temy/', root), { withFileTypes:true });
-  assert.ok(articles.filter(d=>d.isDirectory()).length >= 10);
-  assert.ok(topics.filter(d=>d.isDirectory()).length >= 6);
+
+test('homepage hides knowledge categories and news from navigation', async () => {
+  const html = await main();
+  assert.doesNotMatch(html, /href="\/(temy|stati|poisk|novosti)\/?"/);
+  assert.match(html, /href="#chto-vnutri"/);
 });
-test('sitemap references article URLs', async () => {
+
+test('staged articles and topics are preserved for future publication', async () => {
+  const articles = await readdir(new URL('stati/', root), { withFileTypes: true });
+  const topics = await readdir(new URL('temy/', root), { withFileTypes: true });
+  assert.ok(articles.filter(d => d.isDirectory()).length >= 10);
+  assert.ok(topics.filter(d => d.isDirectory()).length >= 6);
+});
+
+test('only the product homepage is in the current sitemap', async () => {
   const sitemap = await read('sitemap.xml');
-  assert.match(sitemap, /https:\/\/balisha\.ru\/stati\//);
-  assert.match(sitemap, /<urlset/);
+  assert.match(sitemap, /https:\/\/balisha\.ru\/<\/loc>/);
+  assert.doesNotMatch(sitemap, /\/stati\//);
+  assert.doesNotMatch(sitemap, /\/temy\//);
 });
-test('news is not indexed before articles are published', async () => {
-  assert.match(await read('novosti/index.html'), /noindex,follow/);
+
+test('checkout is transparent and unavailable until secure provider is configured', async () => {
+  const html = await main();
+  const js = await read('assets/landing.js');
+  assert.match(html, /data-checkout-url=""/);
+  assert.match(html, /Подключаем онлайн-оплату/);
+  assert.match(html, /Сейчас списаний и сбора платёжных данных нет/);
+  assert.match(js, /target\?\.protocol === 'https:'/);
+  assert.match(js, /dialog\.showModal/);
 });
-test('search has a locally stored answer index', async () => {
-  const index = JSON.parse(await read('search-index.json'));
-  assert.ok(index.length >= 10);
-  assert.ok(index.every(a=>a.title && a.path && a.answer));
+
+test('draft pages send noindex on production, and preview domain stays noindex', async () => {
+  const next = async () => new Response('ok', { headers: { 'content-type': 'text/html' }});
+  const draft = await onRequest({request: new Request('https://balisha.ru/stati/primer/'), next});
+  assert.equal(draft.headers.get('x-robots-tag'), 'noindex, follow');
+  const production = await onRequest({request: new Request('https://balisha.ru/'), next});
+  assert.equal(production.headers.get('x-robots-tag'), null);
+  const preview = await onRequest({request: new Request('https://balisha.pages.dev/'), next});
+  assert.equal(preview.headers.get('x-robots-tag'), 'noindex, nofollow');
+  const oldProduct = await onRequest({request: new Request('https://balisha.ru/putevoditel/'), next});
+  assert.equal(oldProduct.status, 301);
+  assert.equal(oldProduct.headers.get('location'), 'https://balisha.ru/');
 });
