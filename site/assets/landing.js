@@ -1,4 +1,4 @@
-import {offerState,formatPrice,formatCountdown} from './commerce.js';
+import {offerState,formatPrice,formatCountdown} from './commerce.js?v=20261126-4';
 (() => {
 'use strict';
 const scenarios = {
@@ -39,10 +39,10 @@ lightbox.addEventListener('click',e=>{if(e.target===lightbox)lightbox.close()});
 lightbox.addEventListener('keydown',e=>{if(e.key==='ArrowLeft'){e.preventDefault();showPage(selected-1)}if(e.key==='ArrowRight'){e.preventDefault();showPage(selected+1)}});
 const modal=document.getElementById('checkout-dialog');
 let commerceCache=null, promoInterval=null;
-const layoutOnly=new URLSearchParams(location.search).get('offer-layout')==='1';
+
 const loadCommerce=async()=>{
   try{
-    const response=await fetch('/config/commerce.json',{cache:'no-store'});
+    const response=await fetch('/config/commerce.json?v=20261126-4',{cache:'no-store'});
     if(response.ok){commerceCache=await response.json();return commerceCache;}
   }catch(_error){}
   return null;
@@ -50,17 +50,18 @@ const loadCommerce=async()=>{
 function setOfferText(selector,value){document.querySelectorAll(selector).forEach(el=>{el.textContent=value;});}
 function setOfferHidden(selector,hidden){document.querySelectorAll(selector).forEach(el=>{el.hidden=hidden;});}
 function showVerifiedPromotion(cfg){
-  const state=offerState(cfg,Date.now(),layoutOnly);
-  const active=state.phase==='layout-promo'||state.phase==='live-promo';
-  const expired=state.phase==='layout-ended'||state.phase==='live-ended';
-  setOfferText('[data-offer-status]',active?'Цена по акции':expired?'Стоимость комплекта':'Стоимость комплекта');
+  const state=offerState(cfg,Date.now());
+  const active=state.phase==='scheduled-price'||state.phase==='live-promo';
+  const expired=state.phase==='scheduled-ended'||state.phase==='live-ended';
+  setOfferText('[data-offer-status]',state.phase==='live-promo'?'Цена по акции':'Стоимость комплекта');
   setOfferText('[data-offer-price]',formatPrice(state.price));
   setOfferHidden('[data-offer-next]',state.nextPrice===null);
-  setOfferText('[data-offer-next]',state.nextPrice===null?'':'Затем '+formatPrice(state.nextPrice));
+  setOfferText('[data-offer-next]',state.nextPrice===null?'':'Следующая цена: '+formatPrice(state.nextPrice));
   setOfferHidden('[data-offer-countdown]',!active);
-  setOfferText('[data-offer-countdown-label]','До повышения цены');
+  setOfferText('[data-offer-countdown-label]',state.phase==='live-promo'?'До конца акции':'До изменения цены');
   setOfferText('[data-offer-time]',formatCountdown(state.remaining));
   setOfferText('[data-offer-deadline]',state.end?new Intl.DateTimeFormat('ru-RU',{day:'numeric',month:'long',hour:'2-digit',minute:'2-digit',timeZone:'Europe/Moscow',timeZoneName:'short'}).format(state.end):'');
+  setOfferHidden('[data-offer-note]',!state.preview);
   const legal=document.querySelector('.buy-legal');if(legal)legal.textContent=state.preview?'Пока оплата не подключена, ваши платёжные данные не запрашиваются.':'Оплата и выдача комплекта — через Lava.top.';
   const explain=document.querySelector('.buy-explain');if(explain&&!state.preview)explain.textContent='Откройте оплату через Lava.top или сначала ознакомьтесь с бесплатным фрагментом.';
   if(!active&&promoInterval!==null){clearInterval(promoInterval);promoInterval=null;}

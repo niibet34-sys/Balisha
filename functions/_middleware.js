@@ -19,6 +19,7 @@ export async function onRequest({ request, next }) {
   const headers = new Headers(response.headers);
   headers.set('x-content-type-options', 'nosniff');
   headers.set('referrer-policy', 'strict-origin-when-cross-origin');
+  if (url.pathname === '/' || url.pathname === '/config/commerce.json') headers.set('cache-control', 'no-store');
   if (!production || url.searchParams.get('offer-layout') === '1') headers.set('x-robots-tag', 'noindex, nofollow');
   else if (LEGACY_UNPUBLISHED.test(url.pathname)) headers.set('x-robots-tag', 'noindex, follow');
   return new Response(response.body, { status: response.status, statusText: response.statusText, headers });

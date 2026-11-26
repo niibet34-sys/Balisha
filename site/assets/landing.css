@@ -137,3 +137,17 @@
 @media(max-width:870px){.offer-strip-inner{gap:12px 18px}.offer-strip .offer-countdown{padding-left:16px}.offer-price-row{align-items:flex-start}.offer-countdown [data-offer-time]{font-size:36px}.offer-cta{padding:12px 15px}}
 @media(max-width:640px){.offer-strip-inner{grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:11px 12px;padding-block:12px}.offer-strip-inner:has(.offer-countdown[hidden]){grid-template-columns:minmax(0,1fr)}.offer-status{font-size:10px;letter-spacing:.015em}.offer-price-row strong{font-size:32px}.offer-next{font-size:12px}.offer-strip .offer-countdown{padding-left:11px}.offer-countdown [data-offer-time]{font-size:clamp(23px,7vw,34px);letter-spacing:-.02em}.offer-countdown [data-offer-countdown-label]{font-size:10px}.offer-clock-units span{font-size:9px}.offer-cta{min-height:46px;grid-column:1/-1;width:100%}.real-promo-clock [data-offer-time]{font-size:36px}}
 @media(max-width:360px){.offer-price-row strong{font-size:28px}.offer-countdown [data-offer-time]{font-size:23px}.offer-clock-units span{font-size:8px}}
+
+/* Prominent warm-red purchase area, visible on the regular homepage. */
+.offer-strip{background:#a54d39;color:#fff9f3;border-bottom:1px solid #913e2d}
+.offer-strip-inner{padding-block:18px 12px}
+.offer-strip .offer-status,.offer-strip .offer-next,.offer-strip .offer-countdown [data-offer-countdown-label],.offer-strip .offer-countdown small,.offer-strip .offer-clock-units span{color:#fff3ea}
+.offer-strip .offer-price-row strong,.offer-strip .offer-countdown [data-offer-time]{color:#fff;font-weight:800}
+.offer-strip .offer-countdown{border-color:#ffffff50}
+.offer-strip .offer-cta{background:#fff7ed;border-color:#fff7ed;color:#863a2a;font-weight:800}
+.offer-strip .offer-cta:hover{background:#f4e0d3;border-color:#f4e0d3}
+.offer-availability{grid-column:1/-1;margin:0;font-size:11px;color:#fff3ea;line-height:1.35}
+.offer-availability[hidden]{display:none!important}
+.offer-strip .offer-countdown [data-offer-time]{font-size:clamp(32px,4vw,52px)}
+@media(max-width:640px){.offer-strip-inner{padding-block:13px 10px;gap:9px 10px}.offer-strip .offer-countdown [data-offer-time]{font-size:clamp(25px,7.8vw,36px);letter-spacing:-.035em}.offer-strip .offer-cta{min-height:44px}.offer-availability{font-size:10px}}
+@media(max-width:360px){.offer-strip .offer-countdown [data-offer-time]{font-size:23px}}

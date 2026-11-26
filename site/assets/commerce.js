@@ -10,16 +10,16 @@ function safeCheckout(s){
   try{const u=new URL(s);return u.protocol==='https:'&&!u.username&&!u.password?u.href:null;}catch{return null;}
 }
 function deadline(s){return typeof s==='string'&&/(?:Z|[+-]\d{2}:\d{2})$/.test(s)?Date.parse(s):NaN;}
-export function offerState(cfg,now=Date.now(),layoutOnly=false){
+export function offerState(cfg,now=Date.now()){
   const fallback={phase:'unavailable',price:2999,nextPrice:null,end:null,remaining:0,url:null,preview:true};
   if(!cfg)return fallback;
   const base=priceOk(cfg.price)?cfg.price:2999;
   const regular=priceOk(cfg.regularPrice)?cfg.regularPrice:base;
   if(cfg.mode==='preview'){
-    const end=deadline(cfg.layout?.endsAt);
-    if(layoutOnly&&Number.isFinite(end)&&priceOk(cfg.layout?.startPrice)&&priceOk(cfg.layout?.afterPrice)){
+    const end=deadline(cfg.priceSchedule?.endsAt);
+    if(cfg.priceSchedule?.enabled===true&&Number.isFinite(end)&&priceOk(cfg.priceSchedule?.startPrice)&&priceOk(cfg.priceSchedule?.afterPrice)){
       const active=now<end;
-      return {phase:active?'layout-promo':'layout-ended',price:active?cfg.layout.startPrice:cfg.layout.afterPrice,nextPrice:active?cfg.layout.afterPrice:null,end,remaining:Math.max(0,end-now),url:null,preview:true};
+      return {phase:active?'scheduled-price':'scheduled-ended',price:active?cfg.priceSchedule.startPrice:cfg.priceSchedule.afterPrice,nextPrice:active?cfg.priceSchedule.afterPrice:null,end,remaining:Math.max(0,end-now),url:null,preview:true};
     }
     return {...fallback,phase:'preview',price:base};
   }
