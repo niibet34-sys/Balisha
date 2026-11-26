@@ -20,7 +20,9 @@ test('home uses Balisha illustrations, shows 2990 rubles without fake urgency',a
   assert.match(h,/assets\/characters\/balisha-travel\.webp/);
   assert.match(h,/assets\/characters\/balisha-avatar\.webp/);
   assert.match(h,/2 990 ₽/);
-  assert.doesNotMatch(h,/5 490 ₽|только сегодня|цена завтра|скидка 70%/i);
+  assert.match(h,/5 490 ₽/);
+  assert.match(h,/Демонстрация цен и таймера, не действующая акция/);
+  assert.doesNotMatch(h,/только сегодня|цена завтра|скидка 70%/i);
   assert.equal((h.match(/<h1\b/g)||[]).length,1);
 });
 
@@ -34,6 +36,6 @@ test('no fabricated personalized deadline, genuine offers require checkout and e
   assert.equal(cfg.promotion.enabled,false);
   assert.equal(cfg.checkoutUrl,null);
   assert.match(js,/showVerifiedPromotion/);
-  assert.match(js,/endsAt/);
+  assert.match(js,/offerState/);
   assert.doesNotMatch(js,/localStorage|sessionStorage|purchase_complete/);
 });

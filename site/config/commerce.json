@@ -7,8 +7,16 @@
   "delivery": "pending_provider_setup",
   "promotion": {
     "enabled": false,
-    "label": "До завершения объявленной акции",
+    "price": 2990,
     "endsAt": null,
-    "note": "Показывать только для настоящей акции, которую применяет платёжный сервис. Не сбрасывать по повторным визитам."
+    "checkoutUrl": null,
+    "note": "Активировать только после создания реальной акции и checkout обоих периодов в Lava.top. checkoutUrl верхнего уровня — обычная цена regularPrice после акции. Общая дата окончания не сбрасывается."
+  },
+  "regularPrice": 5490,
+  "demo": {
+    "enabled": true,
+    "startPrice": 2990,
+    "afterPrice": 5490,
+    "endsAt": "2026-11-27T23:59:59+03:00"
   }
 }

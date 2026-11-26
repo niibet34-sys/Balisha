@@ -1,3 +1,4 @@
+import {offerState,formatPrice,formatCountdown} from './commerce.js';
 (() => {
 'use strict';
 const scenarios = {
@@ -37,54 +38,39 @@ document.querySelector('[data-lightbox-close]').addEventListener('click',()=>lig
 lightbox.addEventListener('click',e=>{if(e.target===lightbox)lightbox.close()});
 lightbox.addEventListener('keydown',e=>{if(e.key==='ArrowLeft'){e.preventDefault();showPage(selected-1)}if(e.key==='ArrowRight'){e.preventDefault();showPage(selected+1)}});
 const modal=document.getElementById('checkout-dialog');
-let commerceCache=null;
+let commerceCache=null, promoInterval=null;
 const loadCommerce=async()=>{
   try{
     const response=await fetch('/config/commerce.json',{cache:'no-store'});
-    if(response.ok){const config=await response.json();commerceCache=config;return config;}
-  }catch(_error){/* Remain in safe preview state when config is unavailable. */}
+    if(response.ok){commerceCache=await response.json();return commerceCache;}
+  }catch(_error){}
   return null;
 };
-const promoBox=document.getElementById('real-promo-clock');
-const promoLabel=document.getElementById('real-promo-label');
-const promoTime=document.getElementById('real-promo-time');
-let promoInterval=null;
+function setOfferText(selector,value){document.querySelectorAll(selector).forEach(el=>{el.textContent=value;});}
+function setOfferHidden(selector,hidden){document.querySelectorAll(selector).forEach(el=>{el.hidden=hidden;});}
 function showVerifiedPromotion(cfg){
-  if(promoInterval){clearInterval(promoInterval);promoInterval=null;}
-  promoBox.hidden=true;
-  const promotion=cfg?.promotion;
-  // A public, immutable end date is required; never generate/reset personal fake deadlines.
-  if(cfg?.mode!=='live'||!cfg?.checkoutUrl||promotion?.enabled!==true||
-     typeof promotion?.endsAt!=='string'||typeof promotion?.label!=='string')return;
-  const end=Date.parse(promotion.endsAt);
-  if(!Number.isFinite(end)||end<=Date.now()||end>Date.now()+366*864e5)return;
-  promoLabel.textContent=promotion.label;
-  const tick=()=>{
-    const remaining=Math.max(0,end-Date.now());
-    if(remaining===0){promoBox.hidden=true;if(promoInterval)clearInterval(promoInterval);promoInterval=null;return;}
-    const secs=Math.floor(remaining/1000);
-    const days=Math.floor(secs/86400);
-    const hours=String(Math.floor(secs%86400/3600)).padStart(2,'0');
-    const minutes=String(Math.floor(secs%3600/60)).padStart(2,'0');
-    const seconds=String(secs%60).padStart(2,'0');
-    promoTime.textContent=(days>0?days+' дн. ':'')+hours+':'+minutes+':'+seconds;
-    promoBox.hidden=false;
-  };
-  tick();
-  promoInterval=setInterval(tick,1000);
+  const state=offerState(cfg);
+  const demo=state.phase==='demo'||state.phase==='demo-ended';
+  const active=state.phase==='demo'||state.phase==='live-promo';
+  const label=state.phase==='demo'?'ДЕМО АКЦИИ · ПРОДАЖИ НЕ ОТКРЫТЫ':state.phase==='demo-ended'?'ДЕМО ЗАВЕРШЕНО · ПРОДАЖИ НЕ ОТКРЫТЫ':state.phase==='live-promo'?'ЦЕНА ПО АКЦИИ':state.phase==='live-ended'?'АКЦИЯ ЗАВЕРШИЛАСЬ':'ЦЕНА КОМПЛЕКТА';
+  setOfferText('[data-offer-status]',state.preview&&!demo?'ПРЕДПРОСМОТР · ПРОДАЖИ НЕ ОТКРЫТЫ':label);
+  setOfferText('[data-offer-price]',formatPrice(state.price));
+  setOfferHidden('[data-offer-next]',state.nextPrice===null);
+  setOfferText('[data-offer-next]',state.nextPrice===null?'':(demo?'Демо: затем ':'После акции: ')+formatPrice(state.nextPrice));
+  setOfferHidden('[data-offer-countdown]',!active);
+  setOfferText('[data-offer-countdown-label]',demo?'До конца демо':'До конца акции');
+  setOfferText('[data-offer-time]',formatCountdown(state.remaining));
+  setOfferText('[data-offer-deadline]',state.end?new Intl.DateTimeFormat('ru-RU',{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit',timeZone:'Europe/Moscow',timeZoneName:'short'}).format(state.end):'');
+  setOfferText('[data-offer-note]',demo?'Демонстрация цен и таймера, не действующая акция. Оплата пока недоступна.':state.preview?'Оплата пока недоступна.':'Цена и срок предложения должны соответствовать условиям Lava.top.');
+  const legal=document.querySelector('.buy-legal');if(legal)legal.textContent=state.preview?'Пока оплата не подключена, ваши платёжные данные не запрашиваются.':'Оплата и выдача комплекта — через Lava.top.';
+  const explain=document.querySelector('.buy-explain');if(explain&&!state.preview)explain.textContent='Откройте оплату через Lava.top или сначала ознакомьтесь с бесплатным фрагментом.';
+  if(!active&&promoInterval!==null){clearInterval(promoInterval);promoInterval=null;}
+  return state;
 }
-loadCommerce().then(showVerifiedPromotion);
+loadCommerce().then(cfg=>{const state=showVerifiedPromotion(cfg);if(state.remaining>0)promoInterval=setInterval(()=>showVerifiedPromotion(cfg),1000);});
 document.querySelectorAll('.checkout-trigger').forEach(btn=>btn.addEventListener('click',async()=>{
-  const cfg=await loadCommerce();
-  if(cfg?.mode==='live' && typeof cfg?.checkoutUrl==='string'){
-    try{
-      const checkout=new URL(cfg.checkoutUrl);
-      if(checkout.protocol==='https:'&&checkout.hostname&&!checkout.username&&!checkout.password){
-        window.location.assign(checkout.href);
-        return;
-      }
-    }catch(_error){/* Invalid checkout URL; keep safe preview. */}
-  }
+  const cfg=await loadCommerce(),state=showVerifiedPromotion(cfg);
+  if(state.url){window.location.assign(state.url);return;}
   modal.showModal();
 }));
 document.querySelector('[data-checkout-close]').addEventListener('click',()=>modal.close());
