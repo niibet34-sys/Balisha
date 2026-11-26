@@ -154,3 +154,91 @@
 
 /* Viva Magenta (Pantone 18-1750), with white text for legibility. */
 .real-promo-clock{background:#fdf0f4;border-color:#f2b9c9}.real-promo-clock [data-offer-time],.real-promo-clock [data-offer-countdown-label],.real-promo-clock small,.real-promo-clock .offer-clock-units span{color:#8c1c39}.purchase-price strong{color:#a42041}
+
+/* Readable typography across the landing page.
+   Preserve the original wordmark, display headings, cover and countdown numerals.
+   Small decorative text inside the illustrated phone remains compact. */
+body{font-size:16px}
+.top-nav{font-size:14px;gap:24px}
+.header-buy{font-size:14px;min-height:44px;display:inline-flex;align-items:center;justify-content:center}
+.eyebrow,.kicker{font-size:12px;letter-spacing:.115em}
+.hero-subtitle{font-size:21px}
+.hero-text,.why-copy p,.section-heading>p,.assistant-copy>p,.buy-copy>p{font-size:17px;line-height:1.75}
+.button{font-size:15px;line-height:1.4;gap:12px;white-space:normal}
+.hero-footnote{font-size:13px;color:#626f65}
+.hero-character-intro strong{font-size:15px}
+.hero-character-intro span{font-size:13px}
+.hero-stage-label{font-size:11px;letter-spacing:.1em}
+.proof-inner span{font-size:13px;max-width:140px}
+.topic-text p,.pair-text p,.steps-grid p,.faq-list details p{font-size:16px;line-height:1.75}
+.topic-number,.pair-text>span{font-size:12px;letter-spacing:.09em;color:#597560}
+.gallery-toolbar>span:first-child{font-size:15px}
+.gallery-hint{font-size:13px;color:#617064}
+.round-arrow{width:44px;height:44px}
+.gallery-card>span{font-size:12px;min-height:58px;line-height:1.4}
+.gallery-card>span b{font-size:14px;overflow-wrap:anywhere}
+.sample-callout strong{font-size:18px}
+.sample-callout p{font-size:15px;line-height:1.65}
+.balisha-intro-kicker{font-size:11px}
+.balisha-intro-panel p{font-size:14px;line-height:1.65}
+.balisha-intro-panel img{height:100%;min-height:140px;max-height:200px}
+.assistant-tags span{font-size:13px;padding:8px 12px}
+.demo-head strong{font-size:17px}
+.demo-head span:not(.demo-dot){font-size:13px;color:#637569}
+.demo-tabs button{font-size:14px;min-height:44px;line-height:1.3;overflow-wrap:anywhere}
+.demo-question,.demo-answer{font-size:15px;line-height:1.7}
+.demo-label{font-size:12px}
+.demo-disclaimer{font-size:13px;color:#657569}
+.pair-end{font-size:15px}
+.fit-grid h3{font-size:17px}
+.fit-grid p{font-size:15px;line-height:1.65}
+.steps-grid h3{font-size:19px}
+.steps-footnote{font-size:14px;color:#627064}
+.buy-copy li{font-size:16px;line-height:1.6}
+.buy-explain{font-size:14px}
+.buy-card-top{font-size:12px;letter-spacing:.08em;color:#647b68}
+.buy-card h3{font-size:19px}
+.buy-card h3 small{font-size:14px}
+.buy-card-preview .buy-balisha-bonus small{font-size:12px}
+.purchase-price span{font-size:15px}
+.purchase-price small{font-size:13px;line-height:1.5}
+.purchase-price .purchase-next{font-size:15px}
+.buy-legal{font-size:13px;color:#647367}
+.offer-status,.offer-next{font-size:15px;line-height:1.4}
+.offer-countdown [data-offer-countdown-label]{font-size:14px;line-height:1.4}
+.offer-clock-units{max-width:11em}
+.offer-clock-units span{font-size:12px}
+.offer-countdown small,.offer-availability{font-size:12px;line-height:1.5}
+.offer-cta{font-size:15px;white-space:normal;line-height:1.35}
+.faq-intro p{font-size:15px}
+.faq-list summary{font-size:16px;line-height:1.5}
+.footer-main p,.footer-links{font-size:14px}
+.footer-bottom{font-size:12px;color:#69766c}
+.lightbox-head{font-size:15px}
+.checkout-dialog p{font-size:16px;line-height:1.7}
+.checkout-dialog{max-height:90vh;overflow:auto}
+@media(max-width:1120px){.header-inner{gap:20px}.top-nav{gap:16px}.header-buy{padding-inline:13px}}
+@media(min-width:641px) and (max-width:870px){.buy-layout{grid-template-columns:minmax(0,1fr) minmax(0,360px);gap:24px}.buy-copy{min-width:0}.buy-card{min-width:0}}
+@media(max-width:640px){
+ .header-inner{gap:8px}.header-buy{font-size:12px;padding:9px 11px;white-space:normal;text-align:center;line-height:1.3;max-width:160px}
+ .eyebrow,.kicker{font-size:11px;letter-spacing:.09em}.hero-subtitle{font-size:19px}
+ .hero-text,.why-copy p,.section-heading>p,.assistant-copy>p,.buy-copy>p{font-size:16px;line-height:1.75}
+ .button{font-size:15px;padding-inline:14px}
+ .hero-footnote{font-size:12px;gap:6px 15px}
+ .hero-character-intro span{font-size:12px}
+ .hero-stage-label{font-size:9px}
+ .proof-inner{gap:14px 8px}.proof-inner>div{min-width:0;gap:8px}.proof-inner span{font-size:12px;overflow-wrap:anywhere}
+ .topic-text p,.pair-text p,.steps-grid p,.faq-list details p{font-size:15px}
+ .gallery-toolbar>span:first-child{font-size:13px;white-space:normal}
+ .gallery-card{flex-basis:205px}
+ .balisha-intro-panel{grid-template-columns:96px minmax(0,1fr)}.balisha-intro-panel img{width:96px;height:100%;min-height:140px;max-height:190px}.balisha-intro-panel p{font-size:13px}
+ .demo-tabs button{font-size:12px;padding:10px 3px}.demo-question,.demo-answer{font-size:14px}
+ .fit-grid h3{font-size:15px}.fit-grid p{font-size:14px}
+ .buy-card{padding:21px;min-width:0}.buy-card-preview{gap:12px}.buy-card-preview>img{max-width:48%}.buy-card-preview .buy-balisha-bonus{min-width:100px;padding-inline:10px}
+ .offer-status,.offer-next{font-size:13px}
+ .offer-countdown [data-offer-countdown-label]{font-size:12px}
+ .offer-clock-units span,.offer-countdown small{font-size:10px}
+ .offer-availability{font-size:12px}
+ .offer-cta{font-size:15px}
+}
+@media(max-width:360px){.header-buy{font-size:11px;max-width:135px;padding-inline:8px}.offer-strip-inner{gap:9px 8px}.offer-status,.offer-next{font-size:12px}.offer-countdown [data-offer-countdown-label]{font-size:11px}.offer-countdown small{font-size:10px}.proof-inner>div{gap:6px}.proof-inner span{font-size:11px}.fit-grid article{padding-inline:10px}.fit-grid p{font-size:13px}}
