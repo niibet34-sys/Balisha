@@ -10,10 +10,11 @@
     "price": 2999,
     "endsAt": null,
     "checkoutUrl": null,
-    "note": "Активировать только после создания реальной акции и checkout обоих периодов в Lava.top. checkoutUrl верхнего уровня — обычная цена regularPrice после акции. Общая дата окончания не сбрасывается."
+    "note": "Настроить фактическую цену и срок в Lava.top до начала продаж. Без подключённого checkout платежи не принимаются."
   },
   "regularPrice": 5490,
-  "layout": {
+  "priceSchedule": {
+    "enabled": true,
     "startPrice": 2999,
     "afterPrice": 5490,
     "endsAt": "2026-11-27T23:59:59+03:00"

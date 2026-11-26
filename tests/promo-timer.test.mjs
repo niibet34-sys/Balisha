@@ -10,14 +10,14 @@ test('clean offer above the fold and two synchronized countdowns',()=>{
  assert.equal((html.match(/data-offer-countdown hidden/g)||[]).length,2);
  assert.doesNotMatch(html,/Демонстрация цен|Демо: затем|Предпросмотр · продажи/);
 });
-test('layout-only countdown shows 2999 then 5490, normal visitors see price without false deadline',()=>{
- const end=Date.parse(cfg.layout.endsAt);
- const publicState=offerState(cfg,end-1000);
- assert.equal(publicState.price,2999);assert.equal(publicState.end,null);assert.equal(publicState.nextPrice,null);assert.equal(publicState.url,null);
- const a=offerState(cfg,end-1001,true),b=offerState(cfg,end,true);
- assert.equal(a.price,2999);assert.equal(a.nextPrice,5490);assert.equal(b.price,5490);
- assert.equal(offerState(cfg,end+5*864e5,true).price,5490);
+test('public price schedule counts down and switches the displayed price, while payment stays unavailable',()=>{
+ const end=Date.parse(cfg.priceSchedule.endsAt);
+ const a=offerState(cfg,end-1001),b=offerState(cfg,end);
+ assert.equal(a.price,2999);assert.equal(a.nextPrice,5490);assert.equal(a.remaining,1001);
+ assert.equal(b.price,5490);assert.equal(b.remaining,0);
+ assert.equal(offerState(cfg,end+5*864e5).price,5490);
  assert.equal(a.url,null);assert.equal(b.url,null);
+ assert.match(html,/Оплата пока недоступна/);
  assert.equal(formatCountdown(1001),'00:00:02');assert.equal(formatCountdown(90061000),'25:01:01');
 });
 test('real promotion switches price and checkout without resetting',()=>{
