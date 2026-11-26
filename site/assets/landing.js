@@ -1,4 +1,4 @@
-import {offerState,formatPrice,formatCountdown} from './commerce.js?v=20261126-5';
+import {offerState,formatPrice,formatCountdown} from './commerce.js?v=20261126-6';
 (() => {
 'use strict';
 const scenarios = {
@@ -42,7 +42,7 @@ let commerceCache=null, promoInterval=null;
 
 const loadCommerce=async()=>{
   try{
-    const response=await fetch('/config/commerce.json?v=20261126-5',{cache:'no-store'});
+    const response=await fetch('/config/commerce.json?v=20261126-6',{cache:'no-store'});
     if(response.ok){commerceCache=await response.json();return commerceCache;}
   }catch(_error){}
   return null;

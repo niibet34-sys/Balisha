@@ -139,18 +139,18 @@
 @media(max-width:360px){.offer-price-row strong{font-size:28px}.offer-countdown [data-offer-time]{font-size:23px}.offer-clock-units span{font-size:8px}}
 
 /* Prominent warm-red purchase area, visible on the regular homepage. */
-.offer-strip{background:#ff6f61;color:#44231e;border-bottom:1px solid #e65c50}
+.offer-strip{background:#bb2649;color:#fff8fa;border-bottom:1px solid #a01c3b}
 .offer-strip-inner{padding-block:18px 12px}
-.offer-strip .offer-status,.offer-strip .offer-next,.offer-strip .offer-countdown [data-offer-countdown-label],.offer-strip .offer-countdown small,.offer-strip .offer-clock-units span{color:#44231e}
-.offer-strip .offer-price-row strong,.offer-strip .offer-countdown [data-offer-time]{color:#44231e;font-weight:800}
-.offer-strip .offer-countdown{border-color:#44231e40}
-.offer-strip .offer-cta{background:#44231e;border-color:#44231e;color:#fff8f2;font-weight:800}
-.offer-strip .offer-cta:hover{background:#60302a;border-color:#60302a}
-.offer-availability{grid-column:1/-1;margin:0;font-size:11px;color:#44231e;line-height:1.35}
+.offer-strip .offer-status,.offer-strip .offer-next,.offer-strip .offer-countdown [data-offer-countdown-label],.offer-strip .offer-countdown small,.offer-strip .offer-clock-units span{color:#fff8fa}
+.offer-strip .offer-price-row strong,.offer-strip .offer-countdown [data-offer-time]{color:#fff8fa;font-weight:800}
+.offer-strip .offer-countdown{border-color:#ffffff55}
+.offer-strip .offer-cta{background:#fff8fa;border-color:#fff8fa;color:#941b3a;font-weight:800}
+.offer-strip .offer-cta:hover{background:#fce4ea;border-color:#fce4ea}
+.offer-availability{grid-column:1/-1;margin:0;font-size:11px;color:#fff8fa;line-height:1.35}
 .offer-availability[hidden]{display:none!important}
 .offer-strip .offer-countdown [data-offer-time]{font-size:clamp(32px,4vw,52px)}
 @media(max-width:640px){.offer-strip-inner{padding-block:13px 10px;gap:9px 10px}.offer-strip .offer-countdown [data-offer-time]{font-size:clamp(25px,7.8vw,36px);letter-spacing:-.035em}.offer-strip .offer-cta{min-height:44px}.offer-availability{font-size:10px}}
 @media(max-width:360px){.offer-strip .offer-countdown [data-offer-time]{font-size:23px}}
 
-/* Living Coral (Pantone 16-1546), with dark text for legibility. */
-.real-promo-clock{background:#fff0ed;border-color:#ffc4bb}.real-promo-clock [data-offer-time],.real-promo-clock [data-offer-countdown-label],.real-promo-clock small,.real-promo-clock .offer-clock-units span{color:#642d26}.purchase-price strong{color:#873b32}
+/* Viva Magenta (Pantone 18-1750), with white text for legibility. */
+.real-promo-clock{background:#fdf0f4;border-color:#f2b9c9}.real-promo-clock [data-offer-time],.real-promo-clock [data-offer-countdown-label],.real-promo-clock small,.real-promo-clock .offer-clock-units span{color:#8c1c39}.purchase-price strong{color:#a42041}
