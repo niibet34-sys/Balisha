@@ -39,6 +39,7 @@ lightbox.addEventListener('click',e=>{if(e.target===lightbox)lightbox.close()});
 lightbox.addEventListener('keydown',e=>{if(e.key==='ArrowLeft'){e.preventDefault();showPage(selected-1)}if(e.key==='ArrowRight'){e.preventDefault();showPage(selected+1)}});
 const modal=document.getElementById('checkout-dialog');
 let commerceCache=null, promoInterval=null;
+const layoutOnly=new URLSearchParams(location.search).get('offer-layout')==='1';
 const loadCommerce=async()=>{
   try{
     const response=await fetch('/config/commerce.json',{cache:'no-store'});
@@ -49,19 +50,17 @@ const loadCommerce=async()=>{
 function setOfferText(selector,value){document.querySelectorAll(selector).forEach(el=>{el.textContent=value;});}
 function setOfferHidden(selector,hidden){document.querySelectorAll(selector).forEach(el=>{el.hidden=hidden;});}
 function showVerifiedPromotion(cfg){
-  const state=offerState(cfg);
-  const demo=state.phase==='demo'||state.phase==='demo-ended';
-  const active=state.phase==='demo'||state.phase==='live-promo';
-  const label=state.phase==='demo'?'ДЕМО АКЦИИ · ПРОДАЖИ НЕ ОТКРЫТЫ':state.phase==='demo-ended'?'ДЕМО ЗАВЕРШЕНО · ПРОДАЖИ НЕ ОТКРЫТЫ':state.phase==='live-promo'?'ЦЕНА ПО АКЦИИ':state.phase==='live-ended'?'АКЦИЯ ЗАВЕРШИЛАСЬ':'ЦЕНА КОМПЛЕКТА';
-  setOfferText('[data-offer-status]',state.preview&&!demo?'ПРЕДПРОСМОТР · ПРОДАЖИ НЕ ОТКРЫТЫ':label);
+  const state=offerState(cfg,Date.now(),layoutOnly);
+  const active=state.phase==='layout-promo'||state.phase==='live-promo';
+  const expired=state.phase==='layout-ended'||state.phase==='live-ended';
+  setOfferText('[data-offer-status]',active?'Цена по акции':expired?'Стоимость комплекта':'Стоимость комплекта');
   setOfferText('[data-offer-price]',formatPrice(state.price));
   setOfferHidden('[data-offer-next]',state.nextPrice===null);
-  setOfferText('[data-offer-next]',state.nextPrice===null?'':(demo?'Демо: затем ':'После акции: ')+formatPrice(state.nextPrice));
+  setOfferText('[data-offer-next]',state.nextPrice===null?'':'Затем '+formatPrice(state.nextPrice));
   setOfferHidden('[data-offer-countdown]',!active);
-  setOfferText('[data-offer-countdown-label]',demo?'До конца демо':'До конца акции');
+  setOfferText('[data-offer-countdown-label]','До повышения цены');
   setOfferText('[data-offer-time]',formatCountdown(state.remaining));
-  setOfferText('[data-offer-deadline]',state.end?new Intl.DateTimeFormat('ru-RU',{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit',timeZone:'Europe/Moscow',timeZoneName:'short'}).format(state.end):'');
-  setOfferText('[data-offer-note]',demo?'Демонстрация цен и таймера, не действующая акция. Оплата пока недоступна.':state.preview?'Оплата пока недоступна.':'Цена и срок предложения должны соответствовать условиям Lava.top.');
+  setOfferText('[data-offer-deadline]',state.end?new Intl.DateTimeFormat('ru-RU',{day:'numeric',month:'long',hour:'2-digit',minute:'2-digit',timeZone:'Europe/Moscow',timeZoneName:'short'}).format(state.end):'');
   const legal=document.querySelector('.buy-legal');if(legal)legal.textContent=state.preview?'Пока оплата не подключена, ваши платёжные данные не запрашиваются.':'Оплата и выдача комплекта — через Lava.top.';
   const explain=document.querySelector('.buy-explain');if(explain&&!state.preview)explain.textContent='Откройте оплату через Lava.top или сначала ознакомьтесь с бесплатным фрагментом.';
   if(!active&&promoInterval!==null){clearInterval(promoInterval);promoInterval=null;}

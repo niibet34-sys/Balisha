@@ -114,3 +114,26 @@
  .hero{padding-top:26px}
 }
 @media(max-width:380px){.offer-countdown strong{font-size:18px}.offer-price-row strong{font-size:27px}.offer-strip .offer-countdown{padding-left:8px}.offer-strip-inner{gap:8px}}
+
+/* Terracotta editorial commerce block: warm contrast, large tabular numerals. */
+.offer-strip{background:#fbf1ea;color:#713d30;border-bottom:1px solid #ead6c9}
+.offer-strip-inner{grid-template-columns:minmax(0,1fr) minmax(0,1fr) auto;gap:14px 30px;padding-block:17px}
+.offer-strip-inner:has(.offer-countdown[hidden]){grid-template-columns:minmax(0,1fr) auto}
+.offer-status{font-size:12px;letter-spacing:.035em;color:#795044;font-weight:800}
+.offer-price-row{gap:6px 15px;margin-top:5px}
+.offer-price-row strong{color:#873e2e;font-size:clamp(32px,3.2vw,46px);letter-spacing:-.045em;line-height:1.15}
+.offer-next{font-size:14px;color:#765347;font-weight:700}
+.offer-strip .offer-countdown{border-left:1px solid #e0c6b7;padding-left:26px;gap:0;justify-items:start}
+.offer-countdown [data-offer-countdown-label]{color:#795044;font-size:11px;font-weight:800}
+.offer-countdown [data-offer-time]{display:block;color:#963f2e;font-size:clamp(32px,3.7vw,48px);font-weight:850;letter-spacing:.01em;line-height:1.15;font-variant-numeric:tabular-nums}
+.offer-clock-units{display:flex;width:100%;max-width:8.5em;justify-content:space-around;margin:0 0 2px;font-size:18px;color:#795044}
+.offer-clock-units span{font-size:10px;font-weight:700;color:#795044}
+.offer-countdown small{font-size:10px;color:#795044}
+.offer-cta{background:#9c4935;border-color:#9c4935;border-radius:7px;min-height:50px;padding:13px 20px;font-size:13px;color:#fff}
+.offer-cta:hover{background:#813c2c;border-color:#813c2c}
+.purchase-price strong{color:#873e2e}.purchase-price .purchase-next{color:#765347}
+.real-promo-clock{background:#fbf1ea;border-color:#ead6c9;justify-items:center;padding:15px 12px}
+.real-promo-clock [data-offer-time]{font-size:38px}
+@media(max-width:870px){.offer-strip-inner{gap:12px 18px}.offer-strip .offer-countdown{padding-left:16px}.offer-price-row{align-items:flex-start}.offer-countdown [data-offer-time]{font-size:36px}.offer-cta{padding:12px 15px}}
+@media(max-width:640px){.offer-strip-inner{grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:11px 12px;padding-block:12px}.offer-strip-inner:has(.offer-countdown[hidden]){grid-template-columns:minmax(0,1fr)}.offer-status{font-size:10px;letter-spacing:.015em}.offer-price-row strong{font-size:32px}.offer-next{font-size:12px}.offer-strip .offer-countdown{padding-left:11px}.offer-countdown [data-offer-time]{font-size:clamp(23px,7vw,34px);letter-spacing:-.02em}.offer-countdown [data-offer-countdown-label]{font-size:10px}.offer-clock-units span{font-size:9px}.offer-cta{min-height:46px;grid-column:1/-1;width:100%}.real-promo-clock [data-offer-time]{font-size:36px}}
+@media(max-width:360px){.offer-price-row strong{font-size:28px}.offer-countdown [data-offer-time]{font-size:23px}.offer-clock-units span{font-size:8px}}

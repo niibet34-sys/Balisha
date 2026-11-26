@@ -12,16 +12,16 @@ test('approved character images exist as optimized web assets',async()=>{
   }
 });
 
-test('home uses Balisha illustrations, shows 2990 rubles without fake urgency',async()=>{
+test('home uses Balisha illustrations, shows 2999 rubles without fake urgency',async()=>{
   const h=await read('index.html');
   assert.match(h,/Balisha\.ru/);
   assert.match(h,/Grand\+Hotel/);
   assert.match(h,/assets\/characters\/balisha-portrait\.webp/);
   assert.match(h,/assets\/characters\/balisha-travel\.webp/);
   assert.match(h,/assets\/characters\/balisha-avatar\.webp/);
-  assert.match(h,/2 990 ₽/);
+  assert.match(h,/2 999 ₽/);
   assert.match(h,/5 490 ₽/);
-  assert.match(h,/Демонстрация цен и таймера, не действующая акция/);
+  assert.doesNotMatch(h,/Демонстрация цен|Демо: затем|Предпросмотр · продажи/);
   assert.doesNotMatch(h,/только сегодня|цена завтра|скидка 70%/i);
   assert.equal((h.match(/<h1\b/g)||[]).length,1);
 });
@@ -30,7 +30,7 @@ test('no fabricated personalized deadline, genuine offers require checkout and e
   const cfg=JSON.parse(await read('config/commerce.json'));
   const js=await read('assets/landing.js');
   assert.equal(cfg.mode,'preview');
-  assert.equal(cfg.price,2990);
+  assert.equal(cfg.price,2999);
   assert.equal(cfg.currency,'RUB');
   assert.equal(cfg.provider,'lava.top');
   assert.equal(cfg.promotion.enabled,false);

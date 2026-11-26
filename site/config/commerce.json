@@ -2,20 +2,19 @@
   "mode": "preview",
   "provider": "lava.top",
   "currency": "RUB",
-  "price": 2990,
+  "price": 2999,
   "checkoutUrl": null,
   "delivery": "pending_provider_setup",
   "promotion": {
     "enabled": false,
-    "price": 2990,
+    "price": 2999,
     "endsAt": null,
     "checkoutUrl": null,
     "note": "Активировать только после создания реальной акции и checkout обоих периодов в Lava.top. checkoutUrl верхнего уровня — обычная цена regularPrice после акции. Общая дата окончания не сбрасывается."
   },
   "regularPrice": 5490,
-  "demo": {
-    "enabled": true,
-    "startPrice": 2990,
+  "layout": {
+    "startPrice": 2999,
     "afterPrice": 5490,
     "endsAt": "2026-11-27T23:59:59+03:00"
   }
