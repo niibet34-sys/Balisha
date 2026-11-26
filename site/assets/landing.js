@@ -36,7 +36,59 @@ document.querySelector('[data-lightbox-next]').addEventListener('click',()=>show
 document.querySelector('[data-lightbox-close]').addEventListener('click',()=>lightbox.close());
 lightbox.addEventListener('click',e=>{if(e.target===lightbox)lightbox.close()});
 lightbox.addEventListener('keydown',e=>{if(e.key==='ArrowLeft'){e.preventDefault();showPage(selected-1)}if(e.key==='ArrowRight'){e.preventDefault();showPage(selected+1)}});
-const modal=document.getElementById('checkout-dialog');document.querySelectorAll('.checkout-trigger').forEach(btn=>btn.addEventListener('click',async()=>{try{const response=await fetch('/config/commerce.json',{cache:'no-cache'});if(response.ok){const cfg=await response.json();if(cfg.mode==='live' && cfg.checkoutUrl && new URL(cfg.checkoutUrl).protocol==='https:'){window.location.assign(cfg.checkoutUrl);return;}}}catch(_error){/* Safely fall back to preview, never process payment. */}modal.showModal();}));document.querySelector('[data-checkout-close]').addEventListener('click',()=>modal.close());modal.addEventListener('click',e=>{if(e.target===modal)modal.close()});
+const modal=document.getElementById('checkout-dialog');
+let commerceCache=null;
+const loadCommerce=async()=>{
+  try{
+    const response=await fetch('/config/commerce.json',{cache:'no-store'});
+    if(response.ok){const config=await response.json();commerceCache=config;return config;}
+  }catch(_error){/* Remain in safe preview state when config is unavailable. */}
+  return null;
+};
+const promoBox=document.getElementById('real-promo-clock');
+const promoLabel=document.getElementById('real-promo-label');
+const promoTime=document.getElementById('real-promo-time');
+let promoInterval=null;
+function showVerifiedPromotion(cfg){
+  if(promoInterval){clearInterval(promoInterval);promoInterval=null;}
+  promoBox.hidden=true;
+  const promotion=cfg?.promotion;
+  // A public, immutable end date is required; never generate/reset personal fake deadlines.
+  if(cfg?.mode!=='live'||!cfg?.checkoutUrl||promotion?.enabled!==true||
+     typeof promotion?.endsAt!=='string'||typeof promotion?.label!=='string')return;
+  const end=Date.parse(promotion.endsAt);
+  if(!Number.isFinite(end)||end<=Date.now()||end>Date.now()+366*864e5)return;
+  promoLabel.textContent=promotion.label;
+  const tick=()=>{
+    const remaining=Math.max(0,end-Date.now());
+    if(remaining===0){promoBox.hidden=true;if(promoInterval)clearInterval(promoInterval);promoInterval=null;return;}
+    const secs=Math.floor(remaining/1000);
+    const days=Math.floor(secs/86400);
+    const hours=String(Math.floor(secs%86400/3600)).padStart(2,'0');
+    const minutes=String(Math.floor(secs%3600/60)).padStart(2,'0');
+    const seconds=String(secs%60).padStart(2,'0');
+    promoTime.textContent=(days>0?days+' дн. ':'')+hours+':'+minutes+':'+seconds;
+    promoBox.hidden=false;
+  };
+  tick();
+  promoInterval=setInterval(tick,1000);
+}
+loadCommerce().then(showVerifiedPromotion);
+document.querySelectorAll('.checkout-trigger').forEach(btn=>btn.addEventListener('click',async()=>{
+  const cfg=await loadCommerce();
+  if(cfg?.mode==='live' && typeof cfg?.checkoutUrl==='string'){
+    try{
+      const checkout=new URL(cfg.checkoutUrl);
+      if(checkout.protocol==='https:'&&checkout.hostname&&!checkout.username&&!checkout.password){
+        window.location.assign(checkout.href);
+        return;
+      }
+    }catch(_error){/* Invalid checkout URL; keep safe preview. */}
+  }
+  modal.showModal();
+}));
+document.querySelector('[data-checkout-close]').addEventListener('click',()=>modal.close());
+modal.addEventListener('click',e=>{if(e.target===modal)modal.close()});
 // Analytics events are emitted only on actual user actions. A checkout intent never means a sale.
 function emitAnalytics(name,extra={}){window.dispatchEvent(new CustomEvent('balisha:analytics',{detail:{name,...extra}}));if(typeof window.balishaTrack==='function')window.balishaTrack(name,extra);}
 document.querySelectorAll('[data-track]').forEach(el=>el.addEventListener('click',()=>emitAnalytics(el.dataset.track)));

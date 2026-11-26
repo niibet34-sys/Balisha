@@ -13,3 +13,65 @@
 @media (max-width: 699px){
   .hero-book{transform:rotate(-2deg)}
 }
+
+
+/* Balisha character: approved original renders; restrained editorial placement. */
+.hero-character-intro{display:flex;gap:13px;align-items:center;max-width:455px;padding:11px 12px;margin-top:20px;border:1px solid #e5eae2;border-radius:14px;background:#f7f9f5}
+.hero-character-intro img{width:58px;height:58px;border-radius:50%;object-fit:cover;object-position:center 37%;flex:none;box-shadow:0 3px 12px #1c382018}
+.hero-character-intro div{display:flex;flex-direction:column;gap:2px;min-width:0}
+.hero-character-intro strong{font-size:13px;letter-spacing:-.01em;color:#244131;line-height:1.3}
+.hero-character-intro span{font-size:10px;line-height:1.6;color:#657567}
+.hero-character-intro a{margin-left:auto;flex:none;display:grid;place-items:center;border-radius:50%;width:32px;height:32px;background:#e5eee3;color:#24513b;font-weight:800}
+.hero-character-intro a:hover,.hero-character-intro a:focus-visible{background:#cbdcca}
+.hero-phone-avatar{height:27px;width:27px;min-width:27px;border-radius:50%;object-fit:cover;object-position:center 34%;border:1px solid #dde9dd}
+.balisha-intro-panel{display:grid;grid-template-columns:125px 1fr;gap:16px;align-items:center;margin-top:25px;border:1px solid #ffffff2e;border-radius:18px;background:#ffffff0f;padding:11px;overflow:hidden}
+.balisha-intro-panel img{width:125px;height:140px;object-fit:cover;object-position:50% 30%;border-radius:11px}
+.balisha-intro-panel div{padding:4px 7px 4px 0;min-width:0}
+.balisha-intro-kicker{display:block;color:#d8c49e;font-size:9px;letter-spacing:.09em;font-weight:800;margin-bottom:5px;line-height:1.6}
+.balisha-intro-panel strong{display:block;font-size:18px;color:#fff;letter-spacing:-.035em;line-height:1.28}
+.balisha-intro-panel p{margin:8px 0 0;font-size:11px;line-height:1.7;color:#d2e3d6}
+.demo-avatar{overflow:hidden;box-shadow:0 2px 8px #1e452b20}
+.demo-avatar img{width:100%;height:100%;object-fit:cover;object-position:center 35%}
+.ai-pair-art{position:relative;background:#e9f0e9}
+.ai-pair-art .pair-balisha-travel{position:absolute;left:0;top:0;height:100%;width:49%;object-fit:cover;object-position:50% 30%;filter:saturate(.87)}
+.ai-pair-art .pair-chat{position:absolute;right:5%;top:48%;width:min(55%,260px);transform:translateY(-50%);margin:0;border-radius:17px;padding:18px 15px;box-shadow:0 18px 48px #1837213d}
+.ai-pair-art .pair-chat p{margin:10px 0 8px;padding:10px;font-size:10px}
+.ai-pair-art .pair-chat span{font-size:9px;line-height:1.55}
+.buy-card-preview .buy-balisha-bonus{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;padding:12px 16px;min-width:118px;text-align:center}
+.buy-card-preview .buy-balisha-bonus img{width:58px;height:58px;border-radius:50%;border:2px solid #f2eadc;object-fit:cover;object-position:50% 35%;box-shadow:none;transform:none}
+.buy-card-preview .buy-balisha-bonus b{font-size:16px;line-height:1.15}
+.buy-card-preview .buy-balisha-bonus small{font-size:9px}
+.purchase-price{border-top:1px solid #e3eae1;border-bottom:1px solid #e3eae1;padding:14px 8px 17px;margin:15px 0 19px;text-align:center}
+.purchase-price span{display:block;color:#697b6d;font-size:11px;font-weight:700}
+.purchase-price strong{display:block;font-size:38px;font-weight:800;letter-spacing:-.055em;color:#173a2b;line-height:1.3;margin:1px 0 2px;font-variant-numeric:tabular-nums}
+.purchase-price small{display:block;font-size:10px;color:#728475}
+.real-promo-clock{background:#f4f8f2;border:1px solid #c9ddc9;border-radius:10px;padding:12px 14px;margin:13px 0 16px;display:grid;gap:2px;text-align:center}
+.real-promo-clock[hidden]{display:none!important}
+.real-promo-clock span{font-size:10px;color:#3e6247;font-weight:800}
+.real-promo-clock strong{font-size:23px;color:#214434;font-variant-numeric:tabular-nums;letter-spacing:.05em}
+.real-promo-clock small{font-size:9px;color:#66806d}
+@media(max-width:1100px){
+ .balisha-intro-panel{grid-template-columns:110px 1fr}
+ .balisha-intro-panel img{width:110px;height:126px}
+ .assistant-copy{padding-right:28px}
+}
+@media(max-width:700px){
+ .hero-character-intro{max-width:100%;margin-top:18px;padding:9px}
+ .hero-character-intro img{width:52px;height:52px}
+ .hero-character-intro span{font-size:9.5px}
+ .balisha-intro-panel{grid-template-columns:114px 1fr;margin:20px 0 12px;gap:12px;padding:9px}
+ .balisha-intro-panel img{width:114px;height:135px}
+ .balisha-intro-panel strong{font-size:17px}
+ .balisha-intro-panel p{font-size:10px}
+ .assistant-copy{padding-right:0}
+ .ai-pair-art .pair-balisha-travel{width:48%;object-position:center 26%}
+ .ai-pair-art .pair-chat{right:3%;width:57%;padding:14px 12px}
+ .purchase-price strong{font-size:34px}
+}
+@media(max-width:380px){
+ .balisha-intro-panel{grid-template-columns:95px 1fr;gap:9px}
+ .balisha-intro-panel img{height:123px;width:95px}
+ .balisha-intro-panel strong{font-size:15px}
+ .balisha-intro-panel p{font-size:9px}
+ .hero-character-intro a{width:29px;height:29px}
+}
