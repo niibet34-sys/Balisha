@@ -1,8 +1,14 @@
 {
   "mode": "preview",
+  "provider": "lava.top",
+  "currency": "RUB",
+  "price": 2990,
   "checkoutUrl": null,
-  "provider": null,
-  "currency": null,
-  "price": null,
-  "delivery": "pending_provider_selection"
+  "delivery": "pending_provider_setup",
+  "promotion": {
+    "enabled": false,
+    "label": "До завершения объявленной акции",
+    "endsAt": null,
+    "note": "Показывать только для настоящей акции, которую применяет платёжный сервис. Не сбрасывать по повторным визитам."
+  }
 }
